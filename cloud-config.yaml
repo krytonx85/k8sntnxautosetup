@@ -1,0 +1,15 @@
+#cloud-config
+ssh_pwauth: true
+users:
+- name: root
+  lock-passwd: false
+  passwd: $1$SaltSalt$1EiAB7saSDcj6v5MJGxeC0
+  ssh_authorized_keys:
+   - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCYmhU0VQPucJl+blrp03jOLN7Hq+QBx9CHn9Qm7CP44we3f/wULf6kptYhyEV/uAI4VjIZBIt6fvCGjPrenG6nh5sbP9Mr2BNZLtC7OOXNVZZ6PjfyEMYW3vn5nXJmSdCcbgb5TsAMEfY/6lDvTciTCHFp09rfRt4g9PhwK+QPHW09s8AiQnW/734by0/9L4+tFM/kJ98/GvlBLceY+Wg7CpRsVg5uCrBs27XX6bfiqEVtdnCtfdwW9Mmn4oJkWf4cWdObq2FXUHaLWOamGPMK+6wa3y7+sxfPigDP11I4qdccnkOUzICT+BqKQEuA7OvFghqo00ahcF1H9W5TjRCv"
+- name: nutanix
+  lock-passwd: false
+  passwd: $1$SaltSalt$1EiAB7saSDcj6v5MJGxeC0
+  ssh_authorized_keys:
+   - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCYmhU0VQPucJl+blrp03jOLN7Hq+QBx9CHn9Qm7CP44we3f/wULf6kptYhyEV/uAI4VjIZBIt6fvCGjPrenG6nh5sbP9Mr2BNZLtC7OOXNVZZ6PjfyEMYW3vn5nXJmSdCcbgb5TsAMEfY/6lDvTciTCHFp09rfRt4g9PhwK+QPHW09s8AiQnW/734by0/9L4+tFM/kJ98/GvlBLceY+Wg7CpRsVg5uCrBs27XX6bfiqEVtdnCtfdwW9Mmn4oJkWf4cWdObq2FXUHaLWOamGPMK+6wa3y7+sxfPigDP11I4qdccnkOUzICT+BqKQEuA7OvFghqo00ahcF1H9W5TjRCv"
+  sudo:
+   - "ALL=(ALL) NOPASSWD:ALL"
