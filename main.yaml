@@ -1,0 +1,13 @@
+---
+- name: vm_create
+  hosts: PE
+  tasks:
+  - import_role:
+     name: vm_create
+
+- name: Prep VMs
+  hosts: k8s_vms
+  tasks:
+  - import_role:
+     name: k8s_vm_prep
+ 

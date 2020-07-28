@@ -1,0 +1,121 @@
+
+
+- debug:
+   msg: image disk uuid is {{ image_spec.vm_disk_id }}
+- debug:
+   msg: hostname is {{ item }}
+
+- set_fact: 
+   cloud_init: |
+    #cloud-config
+    hostname: {{ item }}
+    ssh_pwauth: true
+    users:
+     - name: root
+       passwd: "$1$SaltSalt$1EiAB7saSDcj6v5MJGxeC0"
+       lock_passwd: false
+       ssh-authorized-keys:
+        - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6b1lX6Lt+lnIWhlhvKO7BFv2O8JpyWsqyVgh0DvUVytnE1Ob9aaYK11CIyVN60LlDO1a5bfPidLXfSlTyfj8PqgLHkwHCMsZe5tIM54FUWZmqOnnHFU0lXq3LYG+hqi8NVwQMR38c16/wxJKtCggr0AiA2We00sWScBVLLGmWq1R7aUKf6mdjNmT2Pr3pyXS5takZ6xLBCXLKDu8MvgOrlXIUNdpAIJ1R7lNkDCiHt/mhMaPWf15ywa/KElg2UFEvbu3o/sQkiWaItcBIWF35MgO+Xa8UBx5p9Iqd7ADk49KHzWhidd2tMyd4aMiBKdeTSI5QaKacnMC/d6VONocj"
+     - name: nutanix
+       lock-passwd: false
+       passwd: "$1$SaltSalt$1EiAB7saSDcj6v5MJGxeC0"
+       ssh_authorized_keys:
+       - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6b1lX6Lt+lnIWhlhvKO7BFv2O8JpyWsqyVgh0DvUVytnE1Ob9aaYK11CIyVN60LlDO1a5bfPidLXfSlTyfj8PqgLHkwHCMsZe5tIM54FUWZmqOnnHFU0lXq3LYG+hqi8NVwQMR38c16/wxJKtCggr0AiA2We00sWScBVLLGmWq1R7aUKf6mdjNmT2Pr3pyXS5takZ6xLBCXLKDu8MvgOrlXIUNdpAIJ1R7lNkDCiHt/mhMaPWf15ywa/KElg2UFEvbu3o/sQkiWaItcBIWF35MgO+Xa8UBx5p9Iqd7ADk49KHzWhidd2tMyd4aMiBKdeTSI5QaKacnMC/d6VONocj"
+       sudo:
+       - "ALL=(ALL) NOPASSWD:ALL"
+
+
+- set_fact:
+   vm_deploy_spec:
+    memory_mb: 2048
+    name: "{{ item }}"
+    num_cores_per_vcpu: 4
+    num_vcpus: 1
+    vm_customization_config:
+     userdata: "{{ cloud_init }}"
+    vm_nics:
+    - network_uuid: "{{ vm_network_uuid }}"
+      is_connected: true
+    vm_disks:
+    - vm_disk_clone:
+        disk_address:
+         device_bus: "SCSI"
+         device_index: 0
+         vmdisk_uuid: "{{ image_spec.vm_disk_id }}"
+        minimum_size: 107374182400
+
+- name: Create VM
+  import_tasks:
+   file: "../../Common/submit_v2_task.yml"
+  vars:
+   endpoint_ip: "{{ ansible_host }}"
+   endpoint_api_path: "api/nutanix/v2.0/vms"
+   endpoint_api_method: "POST"
+   endpoint_api_body: '{{ vm_deploy_spec | to_json }}'
+   endpoint_api_task: "PrismGateway/services/rest/v2.0/tasks"
+   endpoint_api_password: "{{ pe_api_password  }}"
+   endpoint_api_username: "{{ pe_api_username  }}"
+
+
+- name: Power On VM
+  import_tasks:
+   file: "../../Common/submit_v2_task.yml"
+  vars:
+   endpoint_ip: "{{ ansible_host }}"
+   endpoint_api_path: "api/nutanix/v2.0/vms/{{ entity_uuid }}/set_power_state"
+   endpoint_api_method: "POST"
+   endpoint_api_body: '{"transition": "ON"}'
+   endpoint_api_task: "PrismGateway/services/rest/v2.0/tasks"
+   endpoint_api_password: "{{ pe_api_password  }}"
+   endpoint_api_username: "{{ pe_api_username  }}"
+
+
+# - name: sleep for 5 seconds to allow VM get ip
+#   wait_for:
+#     timeout: 30
+#   delegate_to: localhost
+
+
+- name: Wait for ip addr to get populated from dhcp/ipam
+  uri:
+   url: https://{{ ansible_host }}:9440/api/nutanix/v2.0/vms/{{ entity_uuid }}/nics
+   url_username: "{{ pe_api_username }}"
+   url_password: "{{ pe_api_password }}"
+   validate_certs: false
+   force_basic_auth: true
+   return_content: true
+   follow_redirects: all
+   method: 'GET'
+  register: result_list
+  until: result_list.json.entities | to_json | from_json | selectattr('ip_address','defined') | list | length  > 0
+  failed_when: result_list.json.entities | to_json | from_json | selectattr('ip_address','undefined') | list | length  > 0
+  debugger: on_failed
+  retries: 30
+  delay: 5
+
+
+- set_fact:
+   vm_ip_addr: "{{ result_list.json.entities[0].ip_address }}"
+
+- set_fact:
+   vm_group_inventory:   "{{  vm_group_inventory | default([]) | union([{'name': item,'ip_address': vm_ip_addr  }]) }}"
+
+
+- add_host:
+    name: "{{ item }}" # required. The hostname/ip of the host to add to the inventory, can include a colon and a port number.
+    groups: 'k8s_vms' # not required. The groups to add the hostname to, comma separated.
+    ansible_ssh_host: "{{ vm_ip_addr }}"
+    ansible_ssh_user: "root"
+    
+
+# - set_fact:
+#    vm_uuid: "{{ intent_status.json.metadata.uuid }}"
+
+# - name: sleep for 90 seconds and continue with play
+#   wait_for:
+#     timeout: 10
+#   delegate_to: localhost
+
+
+
+

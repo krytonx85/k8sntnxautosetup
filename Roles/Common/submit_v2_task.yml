@@ -1,0 +1,69 @@
+#- debug:
+#
+#   var: |
+#        api_path is {{ endpoint_api_path }} 
+#        endpoint method is {{ endpoint_api_method }} 
+#        api body is: {{ endpoint_api_body }}
+#        api task is: {{ endpoint_api_task }}
+#        endpoint is: {{ endpoint_ip }}
+##
+- name: Submitting Task
+  uri:
+   url: https://{{ endpoint_ip }}:9440/{{ endpoint_api_path }}
+   url_username: "{{ endpoint_api_username }}"
+   url_password: "{{ endpoint_api_password }}"
+   validate_certs: false
+   force_basic_auth: true
+   return_content: true
+   body_format: json
+   method: "{{ endpoint_api_method | string }}"
+   body: "{{ endpoint_api_body }}"
+   follow_redirects: all
+   status_code: [200,201,202]
+  debugger: on_failed
+  register: task_status
+
+
+# finding the task uuid key name as different task give a different key - pc deploy gives task_uuid, while pc register taskUuid
+- set_fact:
+   task_uuid_key_name: "{{ task_status.json | to_json | regex_search('task.?uuid',ignorecase=True, multiline=True) }}" 
+
+- debug:
+   msg: the task key name is {{ task_uuid_key_name }}
+
+
+- set_fact:
+   task_uuid: "{{ task_status.json |  to_json | from_json   | json_query(task_uuid_key_name)  }}"
+
+- debug:
+   msg: the uuid is {{ task_uuid }}
+ 
+
+   
+- name: Waiting for api task to complete
+  uri:
+   url: https://{{ endpoint_ip }}:9440/{{ endpoint_api_task }}/{{ task_uuid }}
+   url_username: "{{ endpoint_api_username }}"
+   url_password: "{{ endpoint_api_password }}"
+   validate_certs: false
+   force_basic_auth: true
+   return_content: true
+   follow_redirects: all
+   method: 'GET'
+  until: task_progress.json | json_query('progress_status')| upper is regex('SUCCEEDED|FAILED|ABORTED|SUSPENDED')
+  failed_when: task_progress.json | json_query('progress_status')|upper is  regex ('FAILED|ABORTED|SUSPENDED')
+  retries: 400
+  delay: 3
+  debugger: on_failed
+  register: task_progress
+
+- debug:
+   msg: Task status is  "{{ task_progress.json |  json_query('progress_status')| upper }}"
+- debug:
+   msg: Is task in progress ?  "{{ task_progress.json | json_query('progress_status')|upper is regex('QUEUED|RUNNING') }}"
+
+- set_fact:
+   entity_uuid: "{{ task_progress.json.entity_list[0].entity_id }}"
+
+- debug:
+   msg: The entity uuid is {{ entity_uuid }}

@@ -1,0 +1,17 @@
+all:
+ children:
+  k8s_vms:
+    hosts:
+     k8s-vm-00:
+      ansible_host: "10.134.81.185" 
+      ansible_user: "root" 
+     k8s-vm-01:
+      ansible_host: "10.134.81.188" 
+      ansible_user: "root"
+     k8s-vm-02:
+      ansible_host: "10.134.81.181" 
+      ansible_user: "root"
+     k8s-vm-03:
+      ansible_host: "10.134.81.184" 
+      ansible_user: "root"
+

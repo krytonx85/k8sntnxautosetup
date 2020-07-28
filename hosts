@@ -1,8 +1,8 @@
 all:
  hosts:
   PE:
-   ansible_host: "10.134.86.96" 
+   ansible_host: "10.134.86.100" 
    ansible_user: "nutanix" 
    ansible_ssh_pass: "nx2Tech100!"
-   api_username: "admin"
-   pe_password: "nx2Tech100!"
+   pe_api_username: "admin"
+   pe_api_password: "nx2Tech100!"

@@ -1,0 +1,47 @@
+- name: Get Image List
+  import_tasks:
+   file: "../../Common/get_v2_list.yml"
+  vars:
+   endpoint_ip: "{{ ansible_host }}"
+   endpoint_api_path: "PrismGateway/services/rest/v2.0/images"
+   endpoint_api_method: "GET"
+   endpoint_api_password: "{{ pe_api_password  }}"
+   endpoint_api_username: "{{ pe_api_username  }}"
+
+  
+
+- set_fact: 
+   image_downloaded_bool: "{{ entity_list.json |  to_json | from_json   | json_query(image_query) |length > 0 }}"
+  vars:
+   image_query: "entities[?name=='centos_k8s_cloudinit'] "
+
+
+- name: "Downloading image if image does not exist"
+  import_tasks:
+   file: "image_download.yml"
+  when: not image_downloaded_bool
+  vars:
+   image_query: "entities[?name=='centos_k8s_cloudinit']"
+
+
+
+
+- name: Get Image List again post download post download task to get image spec
+  import_tasks:
+   file: "../../Common/get_v2_list.yml"
+  vars:
+   endpoint_ip: "{{ ansible_host }}"
+   endpoint_api_path: "PrismGateway/services/rest/v2.0/images"
+   endpoint_api_method: "GET"
+   endpoint_api_password: "{{ pe_api_password  }}"
+   endpoint_api_username: "{{ pe_api_username  }}"
+
+
+- set_fact: 
+   image_spec: "{{ entity_list.json |  to_json | from_json   | json_query(image_query) | first }}"
+  vars:
+   image_query: "entities[?name=='centos_k8s_cloudinit']"
+
+- debug:
+   msg: image spec is  - "{{ image_spec }}"
+

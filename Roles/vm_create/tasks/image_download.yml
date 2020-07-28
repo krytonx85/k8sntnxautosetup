@@ -1,0 +1,28 @@
+- debug:
+   msg: url is {{ centos_image_url }}
+
+- set_fact:
+   image_upload_spec:
+    name: "centos_k8s_cloudinit"
+    image_type: "DISK_IMAGE"
+    image_import_spec:
+      storage_container_uuid: "{{ storage_ctr_uuid }}"  # from vars folder
+      url: "{{ centos_image_url }}"
+
+- name: Download Centos Image
+  import_tasks:
+   file: "../../Common/submit_v2_task.yml"
+  vars:
+   endpoint_ip: "{{ ansible_host }}"
+   endpoint_api_path: "PrismGateway/services/rest/v2.0/images"
+   endpoint_api_method: "POST"
+   endpoint_api_body: '{{ image_upload_spec | to_json }}'
+   endpoint_api_task: "PrismGateway/services/rest/v2.0/tasks"
+   endpoint_api_password: "{{ pe_api_password  }}"
+   endpoint_api_username: "{{ pe_api_username  }}"
+
+- set_fact:
+   centos_image_uuid: "{{ entity_uuid  }}"    #entity_uuid is set in submit_v2_task.yml extracted from task uuid
+
+- debug:
+   msg: image id is "{{ entity_uuid  }}"    #entity_uuid is set in submit_v2_task.yml extracted from task uuid
