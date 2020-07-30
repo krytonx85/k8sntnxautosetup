@@ -1,0 +1,5 @@
+- name: Install Addons
+  hosts: kube-master
+  tasks:
+  - import_role:
+     name: k8s_app_install

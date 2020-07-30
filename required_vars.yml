@@ -1,0 +1,6 @@
+centos_image_url: "https://cloud.centos.org/altarch/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
+vm_network_uuid: "1a16e00d-dbac-4778-b3f6-e46ae86fe3a4"
+storage_ctr_uuid: "9fc4f3b6-0620-4b72-823f-926586eb6acb"
+ssh_keys: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6b1lX6Lt+lnIWhlhvKO7BFv2O8JpyWsqyVgh0DvUVytnE1Ob9aaYK11CIyVN60LlDO1a5bfPidLXfSlTyfj8PqgLHkwHCMsZe5tIM54FUWZmqOnnHFU0lXq3LYG+hqi8NVwQMR38c16/wxJKtCggr0AiA2We00sWScBVLLGmWq1R7aUKf6mdjNmT2Pr3pyXS5takZ6xLBCXLKDu8MvgOrlXIUNdpAIJ1R7lNkDCiHt/mhMaPWf15ywa/KElg2UFEvbu3o/sQkiWaItcBIWF35MgO+Xa8UBx5p9Iqd7ADk49KHzWhidd2tMyd4aMiBKdeTSI5QaKacnMC/d6VONocj"
+
+

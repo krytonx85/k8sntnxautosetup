@@ -2,7 +2,7 @@
   import_tasks:
    file: "image_import.yml"
 
-- name: Centos Image Import
+- name: vm_deploy.yml
   include_tasks:
    file: "vm_deploy.yml"
   with_sequence: start=0 end=3 stride=1 format=k8s-vm-%02x

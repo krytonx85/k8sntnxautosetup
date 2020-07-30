@@ -4,6 +4,8 @@
   tasks:
   - import_role:
      name: vm_create
+  vars_files:
+  - required_vars.yml
 
 - name: Prep VMs
   hosts: k8s_vms
@@ -11,3 +13,4 @@
   - import_role:
      name: k8s_vm_prep
  
+

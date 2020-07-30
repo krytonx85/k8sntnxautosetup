@@ -15,12 +15,12 @@
        passwd: "$1$SaltSalt$1EiAB7saSDcj6v5MJGxeC0"
        lock_passwd: false
        ssh-authorized-keys:
-        - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6b1lX6Lt+lnIWhlhvKO7BFv2O8JpyWsqyVgh0DvUVytnE1Ob9aaYK11CIyVN60LlDO1a5bfPidLXfSlTyfj8PqgLHkwHCMsZe5tIM54FUWZmqOnnHFU0lXq3LYG+hqi8NVwQMR38c16/wxJKtCggr0AiA2We00sWScBVLLGmWq1R7aUKf6mdjNmT2Pr3pyXS5takZ6xLBCXLKDu8MvgOrlXIUNdpAIJ1R7lNkDCiHt/mhMaPWf15ywa/KElg2UFEvbu3o/sQkiWaItcBIWF35MgO+Xa8UBx5p9Iqd7ADk49KHzWhidd2tMyd4aMiBKdeTSI5QaKacnMC/d6VONocj"
+        - "{{ ssh_keys }}"
      - name: nutanix
        lock-passwd: false
        passwd: "$1$SaltSalt$1EiAB7saSDcj6v5MJGxeC0"
        ssh_authorized_keys:
-       - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6b1lX6Lt+lnIWhlhvKO7BFv2O8JpyWsqyVgh0DvUVytnE1Ob9aaYK11CIyVN60LlDO1a5bfPidLXfSlTyfj8PqgLHkwHCMsZe5tIM54FUWZmqOnnHFU0lXq3LYG+hqi8NVwQMR38c16/wxJKtCggr0AiA2We00sWScBVLLGmWq1R7aUKf6mdjNmT2Pr3pyXS5takZ6xLBCXLKDu8MvgOrlXIUNdpAIJ1R7lNkDCiHt/mhMaPWf15ywa/KElg2UFEvbu3o/sQkiWaItcBIWF35MgO+Xa8UBx5p9Iqd7ADk49KHzWhidd2tMyd4aMiBKdeTSI5QaKacnMC/d6VONocj"
+       - "{{ ssh_keys }}"
        sudo:
        - "ALL=(ALL) NOPASSWD:ALL"
 

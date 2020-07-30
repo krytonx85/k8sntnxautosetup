@@ -1,0 +1,39 @@
+- name: setup helm on first master
+  run_once: true
+  shell: "curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3"
+
+- name: install helm
+  run_once: true
+  shell: "chmod 700 get_helm.sh"
+
+- name: install helm
+  run_once: true
+  shell: "sh get_helm.sh"
+
+- name: install ingress
+  run_once: true
+  shell: "helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx; helm install my-release ingress-nginx/ingress-nginx"
+
+- name: setup istio
+  run_once: true
+  shell: "curl -L https://istio.io/downloadIstio | sh -"
+
+- name: setup istio
+  run_once: true
+  shell: 'cd istio*'
+
+- name: setup istio
+  run_once: true
+  shell: 'istioctl install --set profile=demo'
+
+
+- name: default ns auto proxy injection
+  run_once: true
+  shell: 'kubectl label namespace default istio-injection=enabled'
+
+
+- name: setup bookinfo sample
+  run_once: true
+  shell: 'kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml'
+
+

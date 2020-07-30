@@ -1,0 +1,20 @@
+k: [PE] => {
+    "vm_group_inventory": [
+        {
+            "ip_address": "10.134.81.184",
+            "name": "k8s-vm-00"
+        },
+        {
+            "ip_address": "10.134.81.187",
+            "name": "k8s-vm-01"
+        },
+        {
+            "ip_address": "10.134.81.185",
+            "name": "k8s-vm-02"
+        },
+        {
+            "ip_address": "10.134.81.186",
+            "name": "k8s-vm-03"
+        }
+    ]
+}

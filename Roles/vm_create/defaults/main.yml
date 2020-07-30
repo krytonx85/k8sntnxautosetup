@@ -1,5 +1,0 @@
-centos_image_url: "https://cloud.centos.org/altarch/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
-vm_network_uuid: "82305dde-f50f-4e89-9262-2070fd913494"
-storage_ctr_uuid: "1996659d-d0f1-4b00-b176-ee8957ed59db"
-
-
