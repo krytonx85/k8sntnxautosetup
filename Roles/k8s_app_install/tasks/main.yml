@@ -1,6 +1,86 @@
+
+
+
+
+- name: include prism_inventory.yml to obtain pe details for csi secret
+  run_once: true
+  delegate_to: localhost
+  include_vars:
+   file: "{{ playbook_dir }}/prism_inventory.yml"
+   name: prism_inventory
+   
+- debug:
+   msg: the inventory is {{ prism_inventory }}
+ 
+
+
+- set_fact:
+   csi_secret : "{{ prism_inventory.all.hosts.PE.ansible_host+':9440'+ ':' + prism_inventory.all.hosts.PE.pe_api_username + ':' + prism_inventory.all.hosts.PE.pe_api_password }} "
+  run_once: true
+  delegate_to: localhost
+
+- debug:
+   msg: The csi secret is {{csi_secret|trim}}
+  run_once: true
+  delegate_to: localhost
+
+- set_fact:
+   csi_secret_encoded : "{{csi_secret|trim|b64encode}}"
+  run_once: true
+  delegate_to: localhost
+
+- debug:
+   msg: The csi secret is {{csi_secret_encoded}}
+  run_once: true
+  delegate_to: localhost
+
+- name: copying csi files to host
+  run_once: true
+  synchronize:
+   src: files/csi_files/
+   dest: /tmp/csi_files/
+
+- name: load container var from file
+  run_once: true
+  include_vars:
+   file: "{{ playbook_dir }}/required_vars.yml"
+   name: user_input_vars
+
+
+- name: load dsip var from file
+  run_once: true
+  include_vars:
+   file: pe_dsip.yml
+   name: pe_dsip
+
+- debug: 
+   msg: dsip is {{ pe_dsip }}
+
+- name: templating certain csi files to host
+  run_once: true
+  template:
+   src: sc.j2
+   dest: /tmp/csi_files/sc.yaml
+
+
+
+
+- name: create csi secret
+  run_once: true
+  shell: 'kubectl -n kube-system create secret generic ntnx-secret --from-literal=key="{{ csi_secret|trim }}"'
+
+
+
+- name: deploy csi objects in k8s
+  run_once: true
+  shell: 'kubectl apply -f /tmp/csi_files'
+
+
+
 - name: setup helm on first master
   run_once: true
   shell: "curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3"
+
 
 - name: install helm
   run_once: true
@@ -20,11 +100,8 @@
 
 - name: setup istio
   run_once: true
-  shell: 'cd istio*'
+  shell: 'cd istio*;./bin/istioctl install --set profile=demo'
 
-- name: setup istio
-  run_once: true
-  shell: 'istioctl install --set profile=demo'
 
 
 - name: default ns auto proxy injection
@@ -34,6 +111,6 @@
 
 - name: setup bookinfo sample
   run_once: true
-  shell: 'kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml'
+  shell: 'kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.6/samples/bookinfo/platform/kube/bookinfo.yaml'
 
 

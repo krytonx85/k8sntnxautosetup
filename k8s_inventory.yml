@@ -5,17 +5,17 @@ all:
       ip: 10.134.81.180
       access_ip: 10.134.81.180
     node2:
-      ansible_host: 10.134.81.183
-      ip: 10.134.81.183
-      access_ip: 10.134.81.183
+      ansible_host: 10.134.81.188
+      ip: 10.134.81.188
+      access_ip: 10.134.81.188
     node3:
-      ansible_host: 10.134.81.181
-      ip: 10.134.81.181
-      access_ip: 10.134.81.181
+      ansible_host: 10.134.81.190
+      ip: 10.134.81.190
+      access_ip: 10.134.81.190
     node4:
-      ansible_host: 10.134.81.189
-      ip: 10.134.81.189
-      access_ip: 10.134.81.189
+      ansible_host: 10.134.81.182
+      ip: 10.134.81.182
+      access_ip: 10.134.81.182
   children:
     kube-master:
       hosts:

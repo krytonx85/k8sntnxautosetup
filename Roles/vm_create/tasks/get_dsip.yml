@@ -1,0 +1,25 @@
+- name: Get Cluster Config 
+  import_tasks:
+   file: "../../common/get_v2_entity.yml"
+  vars:
+   endpoint_ip: "{{ ansible_host }}"
+   endpoint_api_path: "api/nutanix/v2.0/cluster"
+   endpoint_api_method: "GET"
+   endpoint_api_password: "{{ pe_api_password  }}"
+   endpoint_api_username: "{{ pe_api_username  }}"
+
+- set_fact:
+   pe_dsip: "{{ entity.json.cluster_external_data_services_ipaddress}}"
+
+- fail:
+   msg: "No DSIP defined"
+  when: pe_dsip == ""
+
+- debug:
+   msg: " The dsip is  {{pe_dsip}}"
+
+- name: Write variable to file in k8s_app_install role to be used during csi deployment
+  copy:
+   content: "pe_dsip: {{pe_dsip}}" 
+   dest: "{{ playbook_dir }}/roles/k8s_app_install/vars/pe_dsip.yml"
+  delegate_to: localhost

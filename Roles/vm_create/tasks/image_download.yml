@@ -11,7 +11,7 @@
 
 - name: Download Centos Image
   import_tasks:
-   file: "../../Common/submit_v2_task.yml"
+   file: "../../common/submit_v2_task.yml"
   vars:
    endpoint_ip: "{{ ansible_host }}"
    endpoint_api_path: "PrismGateway/services/rest/v2.0/images"

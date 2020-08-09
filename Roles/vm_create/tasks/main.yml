@@ -1,8 +1,16 @@
+- name: Get DSIP from PE
+  import_tasks:
+   file: "get_dsip.yml"
+   
+- name: Get Network and Container UUID from name 
+  import_tasks:
+   file: "get_network_container_uuid.yml"
+
 - name: Centos Image Import
   import_tasks:
    file: "image_import.yml"
 
-- name: vm_deploy.yml
+- name: deploying k8s vms in PE
   include_tasks:
    file: "vm_deploy.yml"
   with_sequence: start=0 end=3 stride=1 format=k8s-vm-%02x

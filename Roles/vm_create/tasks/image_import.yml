@@ -1,6 +1,6 @@
 - name: Get Image List
   import_tasks:
-   file: "../../Common/get_v2_list.yml"
+   file: "../../common/get_v2_list.yml"
   vars:
    endpoint_ip: "{{ ansible_host }}"
    endpoint_api_path: "PrismGateway/services/rest/v2.0/images"
@@ -28,7 +28,7 @@
 
 - name: Get Image List again post download post download task to get image spec
   import_tasks:
-   file: "../../Common/get_v2_list.yml"
+   file: "../../common/get_v2_list.yml"
   vars:
    endpoint_ip: "{{ ansible_host }}"
    endpoint_api_path: "PrismGateway/services/rest/v2.0/images"

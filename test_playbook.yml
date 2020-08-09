@@ -1,8 +1,8 @@
 - name: test kubespray
-  hosts: k8s_vms
+  hosts: all
   tasks:
   - import_role:
-     name: k8s_init
+     name: k8s_app_install
   tags:
   - k8s_init
   vars:

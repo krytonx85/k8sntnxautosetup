@@ -27,7 +27,7 @@
 
 - set_fact:
    vm_deploy_spec:
-    memory_mb: 2048
+    memory_mb: 8192
     name: "{{ item }}"
     num_cores_per_vcpu: 4
     num_vcpus: 1
@@ -46,7 +46,7 @@
 
 - name: Create VM
   import_tasks:
-   file: "../../Common/submit_v2_task.yml"
+   file: "../../common/submit_v2_task.yml"
   vars:
    endpoint_ip: "{{ ansible_host }}"
    endpoint_api_path: "api/nutanix/v2.0/vms"
@@ -59,7 +59,7 @@
 
 - name: Power On VM
   import_tasks:
-   file: "../../Common/submit_v2_task.yml"
+   file: "../../common/submit_v2_task.yml"
   vars:
    endpoint_ip: "{{ ansible_host }}"
    endpoint_api_path: "api/nutanix/v2.0/vms/{{ entity_uuid }}/set_power_state"

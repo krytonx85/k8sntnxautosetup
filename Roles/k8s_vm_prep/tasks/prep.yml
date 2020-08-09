@@ -15,6 +15,15 @@
       name: ntp
     become: yes
 
+  - name: install iscsi
+    yum:
+      name: iscsi-initiator-utils
+    become: yes
+
+  - name: install nfs-util
+    yum:
+      name: nfs-utils
+    become: yes
 
   - name: start service ntp, if not running
     systemd:
@@ -64,8 +73,13 @@
     become: yes
 
   - name: restart server
-    command: /sbin/shutdown -r +1
+    command: /sbin/shutdown -r now
     async: 0
     poll: 0
     ignore_errors: true
     become: yes
+
+  - name: wait for system to be up
+    wait_for_connection: 
+
+    
