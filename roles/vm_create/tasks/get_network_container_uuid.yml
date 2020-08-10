@@ -1,0 +1,50 @@
+- name: Get VM Net List
+  import_tasks:
+   file: "../../common/get_v2_list.yml"
+  vars:
+   endpoint_ip: "{{ ansible_host }}"
+   endpoint_api_path: "api/nutanix/v2.0/networks"
+   endpoint_api_password: "{{ pe_api_password  }}"
+   endpoint_api_username: "{{ pe_api_username  }}"
+
+- set_fact: 
+   name: "Finding the Network UUID"
+   vm_network_uuid: "{{ entity_list.json | to_json | from_json | json_query(query_filter) | first }}"
+  vars:
+    query_filter: "entities[?name==`{{ vm_network_name }}`].uuid"
+
+- debug:
+   msg: "vm net uuid is {{ vm_network_uuid }}"
+    
+
+- fail:
+   msg: "Unable to find network uuid"
+  when: vm_network_uuid == ""
+    
+
+
+- name: Get Storage Container  List
+  import_tasks:
+   file: "../../common/get_v2_list.yml"
+  vars:
+   endpoint_ip: "{{ ansible_host }}"
+   endpoint_api_path: "api/nutanix/v2.0/storage_containers"
+   endpoint_api_password: "{{ pe_api_password  }}"
+   endpoint_api_username: "{{ pe_api_username  }}"
+
+
+
+- set_fact: 
+   name: "Finding the Storage UUID"
+   storage_ctr_uuid: "{{ entity_list.json | to_json | from_json | json_query(query_filter) | first }}"
+  vars:
+    query_filter: "entities[?name==`{{ storage_ctr_name }}`].storage_container_uuid"
+
+- debug:
+   msg: "storage ctr uuid is {{ storage_ctr_uuid }}"
+    
+
+- fail:
+   msg: "Unable to find storage uuid"
+  when: storage_ctr_uuid == ""
+

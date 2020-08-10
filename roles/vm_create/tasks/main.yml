@@ -1,0 +1,27 @@
+- name: Get DSIP from PE
+  import_tasks:
+   file: "get_dsip.yml"
+   
+- name: Get Network and Container UUID from name 
+  import_tasks:
+   file: "get_network_container_uuid.yml"
+
+- name: Centos Image Import
+  import_tasks:
+   file: "image_import.yml"
+
+- set_fact: 
+   k8s_uuid: "{ 999999999999999999999 | random | string + (lookup('pipe', 'date +%s%N')) | to_uuid() }}"
+
+
+- name: deploying k8s vms in PE
+  include_tasks:
+   file: "vm_deploy.yml"
+  with_sequence: start=0 end=3 stride=1 format=k8s-vm-{{ k8s_uuid }}-%02x
+
+- debug:
+   var: vm_group_inventory
+
+
+
+

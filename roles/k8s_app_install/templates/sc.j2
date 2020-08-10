@@ -1,0 +1,18 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+    name: acs-abs
+provisioner: com.nutanix.csi
+parameters:
+    csi.storage.k8s.io/provisioner-secret-name: ntnx-secret
+    csi.storage.k8s.io/provisioner-secret-namespace: kube-system
+    csi.storage.k8s.io/node-publish-secret-name: ntnx-secret
+    csi.storage.k8s.io/node-publish-secret-namespace: kube-system
+    csi.storage.k8s.io/controller-expand-secret-name: ntnx-secret
+    csi.storage.k8s.io/controller-expand-secret-namespace: kube-system
+    csi.storage.k8s.io/fstype: ext4
+    dataServiceEndPoint: {{ pe_dsip.pe_dsip }}:3260
+    storageContainer: {{ user_input_vars.storage_ctr_name }}
+    storageType: NutanixVolumes
+allowVolumeExpansion: true
+reclaimPolicy: Delete

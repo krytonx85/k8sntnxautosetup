@@ -1,0 +1,12 @@
+- name: Get entities
+  uri:
+   url: https://{{ endpoint_ip }}:9440/{{ endpoint_api_path }}
+   url_username: "{{ endpoint_api_username }}"
+   url_password: "{{ endpoint_api_password }}"
+   validate_certs: false
+   force_basic_auth: true
+   return_content: true
+   follow_redirects: all
+   method: 'GET'
+  debugger: on_failed
+  register: entity_list

@@ -1,0 +1,27 @@
+- name: save vm deployed ips for inventory builder
+  run_once: true
+  set_fact:
+    IPS: "{% for vm in vm_group_inventory  %} {{ vm.ip_address }}{% endfor  %}"
+
+- debug: 
+   msg: IP Set is {{ IPS }}
+  run_once: true
+
+
+- name: Update Ansible inventory file with inventory builder
+  run_once: true
+  delegate_to: localhost
+  shell: "CONFIG_FILE={{ playbook_dir }}/kubespray/inventory/mycluster/hosts.yml python3 {{ playbook_dir }}/kubespray/contrib/inventory_builder/inventory.py {{ IPS }} "
+
+
+# - name: add VM IPs generated earlier to IPS bash var
+#   run_once: true
+#   local_action:
+#    module: "command IPS+=\"{{ item.ip_address }}\")"
+#   loop: "{{ vm_group_inventory }}"
+
+# - name: echo IPS
+#   run_once: true
+#   local_action:
+#    module: "command echo $(IPS[@])"
+#   loop: "{{ vm_group_inventory  }"

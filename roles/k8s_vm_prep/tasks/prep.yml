@@ -1,0 +1,85 @@
+
+  - name: update all packages
+    yum:
+      name: '*'
+      state: latest
+    become: yes
+
+  - name: install network tools
+    yum:
+      name: net-tools
+    become: yes
+
+  - name: install ntp
+    yum:
+      name: ntp
+    become: yes
+
+  - name: install iscsi
+    yum:
+      name: iscsi-initiator-utils
+    become: yes
+
+  - name: install nfs-util
+    yum:
+      name: nfs-utils
+    become: yes
+
+  - name: start service ntp, if not running
+    systemd:
+      name: ntpd
+      state: started
+    become: yes
+
+  - name: start service ntp, if not running
+    systemd:
+      name: ntpd
+      enabled: yes
+    become: yes
+  - name: be sure firewalld is installed
+    yum: 
+     name: "firewalld"
+     state: "installed"
+    ignore_errors: yes
+
+  - name: be sure firewalld is installed
+    systemd: 
+     name: "firewalld"
+     enabled: "no"
+    ignore_errors: yes 
+
+  - name: be sure firewalld is installed
+    systemd: 
+     name: "firewalld"
+     state: "stopped"
+    ignore_errors: yes 
+
+  - replace:
+      path: /etc/fstab
+      regexp: '^/dev/mapper/centos-swap\s*swap\s*swap\s*defaults\s*[0-9]\s*[0-9]$'
+      replace: '# /dev/mapper/centos-swap swap                    swap    defaults        0 0'
+    become: yes
+
+  - lineinfile:
+      path: /etc/sysconfig/network
+      state: present
+      line: 'HOSTNAME={{inventory_hostname}}.local'
+    become: yes
+
+  - lineinfile:
+      path: /etc/hosts
+      state: present
+      line: '{{ansible_default_ipv4.address}}   {{inventory_hostname}}.local   {{inventory_hostname}}'
+    become: yes
+
+  - name: restart server
+    command: /sbin/shutdown -r now
+    async: 0
+    poll: 0
+    ignore_errors: true
+    become: yes
+
+  - name: wait for system to be up
+    wait_for_connection: 
+
+    
