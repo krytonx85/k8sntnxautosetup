@@ -13,9 +13,9 @@ It automates the following:
 
 # About Kubespray
 Please refer to these docs about kubespray:
-https://kubernetes.io/docs/setup/production-environment/tools/kubespray/
-https://kubespray.io/#/
-https://github.com/kubernetes-sigs/kubespray
+- https://kubernetes.io/docs/setup/production-environment/tools/kubespray/
+- https://kubespray.io/#/
+- https://github.com/kubernetes-sigs/kubespray
 
 
 
