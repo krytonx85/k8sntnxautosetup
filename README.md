@@ -22,6 +22,13 @@ Please refer to these docs about kubespray:
 The CSI for Nutanix plugin provisions the storage backend for your PVC.
 Refer [here](https://portal.nutanix.com/page/documents/details?targetId=CSI-Volume-Driver-v2_0:CSI-Volume-Driver-v2_0) for learning more on Nutanix CSI 2.0. 
 
+# Requirement
+
+1. python3 installed
+2. ssh key pass installed
+3. Highly recommend to install virtual env to install the python3 dependencies
+4. network defined in the required_vars.yaml file should have IPAM enabled or dhcp server
+
 
 # Installation Instruction
 1. Create a seperate directory and cd into it. 
@@ -69,10 +76,6 @@ cp kubespray/inventory/mycluster/artifacts/admin.conf ~/.kube/admin.conf
 ```
 
 
-# Requirement
-1. python3 installed
-2. ssh key pass installed
-3. Highly recommend to install virtual env to install the python3 dependencies
 
 
 # Accessing the cluster
