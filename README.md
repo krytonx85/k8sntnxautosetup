@@ -7,9 +7,9 @@ It automates the following:
 2. Create and Deploy 4 VMs on your Prism Element using nutanix v2 api calls 
 3. Use Kubespray - deploy a default configuration kubernetes cluster
 4. Deploy addons like 
-  a. Nutanix CSI 2.0 
-  b. Nginx Ingress
-  c. Istio Service Mesh
+  - Nutanix CSI 2.0 
+  - Nginx Ingress
+  - Istio Service Mesh
 
 # About Kubespray
 Please refer to these docs about kubespray:
