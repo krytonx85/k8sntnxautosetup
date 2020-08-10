@@ -11,8 +11,10 @@
    file: "image_import.yml"
 
 - set_fact: 
-   k8s_uuid: "{ 999999999999999999999 | random | string + (lookup('pipe', 'date +%s%N')) | to_uuid() }}"
+   k8s_uuid: "{{ 999999999999999999999 | random | string + (lookup('pipe', 'date +%s%N')) | to_uuid() }}"
 
+- debug: 
+   msg: "uuid is {{ k8s_uuid }}"
 
 - name: deploying k8s vms in PE
   include_tasks:
