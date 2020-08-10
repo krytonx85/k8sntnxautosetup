@@ -27,7 +27,7 @@ Refer [here](https://portal.nutanix.com/page/documents/details?targetId=CSI-Volu
 1. python3 installed
 2. ssh key pass installed
 3. Highly recommend to install virtual env to install the python3 dependencies
-4. network defined in the required_vars.yaml file should have IPAM enabled or dhcp server
+4. network defined in the required_vars.yaml file should have IPAM enabled or dhcp server with DNS defined as each vm will be downloading the bits from internet
 
 
 # Installation Instruction
