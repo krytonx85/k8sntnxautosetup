@@ -5,9 +5,9 @@ This is a small project which automates the following:
 2. Create and Deploy 4 VMs on your Prism Element using nutanix v2 api calls 
 3. Use Kubespray - deploy a default configuration kubernetes cluster
 4. Deploy addons like 
-  - Nutanix CSI 2.0 
-  - Nginx Ingress
-  - Istio Service Mesh
+  a. Nutanix CSI 2.0 
+  b. Nginx Ingress
+  c. Istio Service Mesh
 
 
 # Installation Instruction
@@ -39,6 +39,8 @@ Following Config is created by default
    b. Kubernetes 1.17 with Calico
    c. Ingress Controller - Nginx
    d. Istio Service Mesh
+   e. CSI 2.0 is deployed and default storage class created for ISCSI
+
    
  
 # Import Notes
