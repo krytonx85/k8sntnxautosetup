@@ -46,4 +46,3 @@ Following Config is created by default
 2. Roughly should take about 30-40 min - if it takes more time - please check your internet connection to the prism element and worker vms.
 
 
-
