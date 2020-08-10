@@ -1,6 +1,6 @@
 # Kubespray Deployment on Nutanix
 
-This is a small project which aims to quckly setup a production grade kubernetes cluster on Nutanix Prism Element.  This is just for testing/poc purposes.
+This is a small project which aims to quckly setup a production grade kubernetes cluster on Nutanix Prism Element using ansible.  This is just for testing/poc purposes.
 
 It automates the following:
 1. Download Centos Image
