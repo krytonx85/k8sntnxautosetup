@@ -75,11 +75,11 @@ cp kubespray/inventory/mycluster/artifacts/admin.conf ~/.kube/admin.conf
 Your kubeconfig file is found in directory `kubespray/inventory/mycluster/artifacts`
 # Configuration Notes
 Following Config is created by default
-   a. 4 VMs - 4 vcpu and 8GB RAM
-   b. Kubernetes 1.17 with Calico
-   c. Ingress Controller - Nginx
-   d. Istio Service Mesh
-   e. CSI 2.0 is deployed and default storage class created for ISCSI
+   1. 4 VMs - 4 vcpu and 8GB RAM
+   2. Kubernetes 1.17 with Calico
+   3. Ingress Controller - Nginx
+   4. Istio Service Mesh
+   5. CSI 2.0 is deployed and default storage class created for ISCSI
 
    
  
