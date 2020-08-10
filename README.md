@@ -1,6 +1,8 @@
 # Kubespray Deployment on Nutanix
 
-This is a small project which automates the following:
+This is a small project which aims to quckly setup a production grade kubernetes cluster on Nutanix Prism Element.  This is just for testing/poc purposes.
+
+It automates the following:
 1. Download Centos Image
 2. Create and Deploy 4 VMs on your Prism Element using nutanix v2 api calls 
 3. Use Kubespray - deploy a default configuration kubernetes cluster
@@ -8,6 +10,13 @@ This is a small project which automates the following:
   a. Nutanix CSI 2.0 
   b. Nginx Ingress
   c. Istio Service Mesh
+
+# About Kubespray
+Please refer to these docs about kubespray:
+https://kubernetes.io/docs/setup/production-environment/tools/kubespray/
+https://kubespray.io/#/
+https://github.com/kubernetes-sigs/kubespray
+
 
 
 # Installation Instruction
