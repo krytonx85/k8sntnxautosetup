@@ -21,6 +21,8 @@ pip install -r k8sntnxautosetup/requirements.txt
 cd k8sntnxautosetup
 vi required_vars.yml ##change the values to match your environment. DONOT delete any params.
 vi prism_inventory.yml ##change the details to match your prism element
+sh deploy_cluster.sh 
+cp kubespray/inventory/mycluster/artifacts/admin.conf ~/.kube/admin.conf
 ```
 
 # Requirement
@@ -28,8 +30,11 @@ vi prism_inventory.yml ##change the details to match your prism element
 2. ssh key pass installed
 3. Highly recommend to install virtual env to install the python3 dependencies
 
+
+# Accessing the cluster
+Your kubeconfig file is found in directory `kubespray/inventory/mycluster/artifacts`
 # Configuration Notes
-1. Following Config is created by default
+Following Config is created by default
    a. 4 VMs - 4 vcpu and 8GB RAM
    b. Kubernetes 1.17 with Calico
    c. Ingress Controller - Nginx
