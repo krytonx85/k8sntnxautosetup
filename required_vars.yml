@@ -4,5 +4,3 @@ vm_network_name: "ipam"
 storage_ctr_name: "NutanixManagementShare"
 
 
-# vm_network_uuid: "e5aa898b-a291-471e-9b93-a66bd53b3471"
-# storage_ctr_uuid: "43de22f9-df6c-48e1-8469-24a38befe3b7 user_input_vars.storage_ctr_name

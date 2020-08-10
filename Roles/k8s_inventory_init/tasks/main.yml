@@ -11,7 +11,7 @@
 - name: Update Ansible inventory file with inventory builder
   run_once: true
   delegate_to: localhost
-  shell: "CONFIG_FILE={{ playbook_dir }}/k8s_inventory.yml python3 {{ playbook_dir }}/kubespray/contrib/inventory_builder/inventory.py {{ IPS }} "
+  shell: "CONFIG_FILE={{ playbook_dir }}/kubespray/inventory/mycluster/hosts.yml python3 {{ playbook_dir }}/kubespray/contrib/inventory_builder/inventory.py {{ IPS }} "
 
 
 # - name: add VM IPs generated earlier to IPS bash var
