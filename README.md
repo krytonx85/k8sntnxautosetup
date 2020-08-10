@@ -20,6 +20,14 @@ Please refer to these docs about kubespray:
 
 
 # Installation Instruction
+1. Create a seperate directory
+2. Create a virtual environment for python3 using virtualenv
+3. Clone the repo (recurisive as kubespray is a submodule
+4. Install the python dependencies in k8sntnxautosetup
+5. cd into the k8sntnxautosetup and change prism_inventory.ym and required_vars.yml per your setup
+6. run deploy_cluster.sh -  relax for 30-40 min to get a production grade K8s HA cluster up and running
+7. copy the kubeconfig and use it for later
+
 ```
 mkdir myproject
 cd myproject
