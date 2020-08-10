@@ -25,7 +25,7 @@ mkdir myproject
 cd myproject
 python3 -m pip install --upgrade pip
 pip3 install virtualenv
-git clone https://github.com/krytonx85/k8sntnxautosetup.git
+git clone https://github.com/krytonx85/k8sntnxautosetup.git --recursive  ##need to use recursive as kubespray is a submodule
 pip install -r k8sntnxautosetup/requirements.txt
 cd k8sntnxautosetup
 vi required_vars.yml ##change the values to match your environment. DONOT delete any params.
