@@ -17,6 +17,10 @@ Please refer to these docs about kubespray:
 - https://kubespray.io/#/
 - https://github.com/kubernetes-sigs/kubespray
 
+# About Nutanix CSI
+
+The CSI for Nutanix plugin provisions the storage backend for your PVC.
+Refer [here](https://portal.nutanix.com/page/documents/details?targetId=CSI-Volume-Driver-v2_0:CSI-Volume-Driver-v2_0) for learning more on Nutanix CSI 2.0. 
 
 
 # Installation Instruction
