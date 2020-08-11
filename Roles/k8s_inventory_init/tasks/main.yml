@@ -7,6 +7,12 @@
    msg: IP Set is {{ IPS }}
   run_once: true
 
+- name: Update Ansible inventory file with inventory builder
+  run_once: true
+  delegate_to: localhost
+  shell: "cp -rfp {{ playbook_dir }}/kubespray/inventory/sample {{ playbook_dir }}/kubespray/inventory/mycluster"
+
+
 
 - name: Update Ansible inventory file with inventory builder
   run_once: true
