@@ -58,7 +58,7 @@ cd k8sntnxautosetup
 pip install -r requirements.txt
 ```
 
-6. change prism_inventory.ym and required_vars.yml per your setup
+6. change prism_inventory.ym and required_vars.yml per your setup. Refer [here](#required-variables)
 ```
 vi required_vars.yml ##change the values to match your environment. DONOT delete any params.
 vi prism_inventory.yml ##change the details to match your prism element
@@ -76,6 +76,22 @@ cp kubespray/inventory/mycluster/artifacts/admin.conf ~/.kube/admin.conf
 ```
 
 
+# Required Variables
+
+Prior to deployment - you need to modify the required_vars and prism_inventory files.
+
+## 1. required_vars.yml variables
+- centos_image_url - centos image download url. change it to some centos cloud image qcow file matching your local reqion for faster download
+- ssh_keys - copy the public key of the user you are running the script from. These get copied to the k8s vm under root user for subsequent provisioning
+- vm_network_name - name of the PE network that has ipam/dhcp and dns
+- storage_ctr_name - name of the PE storage container name
+
+## 2. prism_inventory.yml
+- ansible_host - change it to the PE VIP
+- ansible_user - leave it as nutanix
+- ansible_ssh_pass - nutanix user ssh password
+- pe_api_username - PE cluster admin user for making api calls 
+- pe_api_password - PE cluster admin password
 
 
 # Accessing the cluster
