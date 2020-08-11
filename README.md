@@ -109,5 +109,12 @@ Following Config is created by default
 # Import Notes
 1. Highly recommend to install virtual env to install the python3 dependencies
 2. Roughly should take about 30-40 min - if it takes more time - please check your internet connection to the prism element and worker vms.
+3. If you running from centos - you might get failure at the end
+```
+[DEPRECATION WARNING]: evaluating 'kubeconfig_localhost' as a bare variable, this behaviour will go away and you might need to add |bool to the expression in the future. Also see CONDITIONAL_BARE_VARS configuration toggle. This feature will be removed in version 2.12. Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+fatal: [node1 -> localhost]: FAILED! => {"changed": false, "checksum": "cb174212df43cc5ea7a0dfd70802a48306b0e5e9", "msg": "Aborting, target uses selinux but python bindings (libselinux-python) aren't installed!"}
+```
+Please disable selinux totally (not just permissive) from the machine you are running the script. Refer [here](https://www.cyberciti.biz/faq/disable-selinux-on-centos-7-rhel-7-fedora-linux/)
+
 
 
