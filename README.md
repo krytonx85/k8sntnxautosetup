@@ -1,4 +1,4 @@
-# Kubespray Deployment on Nutanix
+# Quick K8s deployer on Nutanix cluster via Kubespray
 
 This is a small project which aims to quckly setup a production grade kubernetes cluster on Nutanix Prism Element using ansible and install addons like Nutanix CSI 2.0 ,istio and nginx ingress.  This is just for testing/poc purposes and in now way related supported by Nutanix .
 
