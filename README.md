@@ -117,4 +117,13 @@ fatal: [node1 -> localhost]: FAILED! => {"changed": false, "checksum": "cb174212
 Please disable selinux totally (not just permissive) from the machine you are running the script. Refer [here](https://www.cyberciti.biz/faq/disable-selinux-on-centos-7-rhel-7-fedora-linux/)
 
 
+ 
+# What it is useful and what it is not
+## It is useful for:
+- Good for quickly spinning up a production grade k8s setup and have a few addons like istio and CSI without the need to deploy PC and use Karbon or Calm
+- Can customize any kubespray setting via the variables in kubespray folder. Refer to Kubespray docs 
 
+## It is not:
+- Nutanix supported - it is my personal project
+- Currently cannot do node expansion (working on that based on need)
+- Currently cannot dynamically chose number of worker nodes (working on this now)
