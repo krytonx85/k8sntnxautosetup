@@ -1,6 +1,6 @@
-# Kubespray Deployment on Nutanix
+# Quick K8s deployer on Nutanix cluster via Kubespray
 
-This is a small project which aims to quckly setup a production grade kubernetes cluster on Nutanix Prism Element using ansible and install addons like Nutanix CSI 2.0 ,istio and nginx ingress.  This is just for testing/poc purposes.
+This is a small project which aims to quckly setup a production grade kubernetes cluster on Nutanix Prism Element using ansible and install addons like Nutanix CSI 2.0 ,istio and nginx ingress.  This is just for testing/poc purposes and in now way related supported by Nutanix .
 
 It automates the following:
 1. Download Centos Image
@@ -58,7 +58,7 @@ cd k8sntnxautosetup
 pip install -r requirements.txt
 ```
 
-6. change prism_inventory.ym and required_vars.yml per your setup
+6. change prism_inventory.ym and required_vars.yml per your setup. Refer [here](#required-variables)
 ```
 vi required_vars.yml ##change the values to match your environment. DONOT delete any params.
 vi prism_inventory.yml ##change the details to match your prism element
@@ -76,6 +76,22 @@ cp kubespray/inventory/mycluster/artifacts/admin.conf ~/.kube/admin.conf
 ```
 
 
+# Required Variables
+
+Prior to deployment - you need to modify the required_vars and prism_inventory files.
+
+## 1. required_vars.yml variables
+- centos_image_url - centos image download url. change it to some centos cloud image qcow file matching your local reqion for faster download
+- ssh_keys - copy the public key of the user you are running the script from. These get copied to the k8s vm under root user for subsequent provisioning
+- vm_network_name - name of the PE network that has ipam/dhcp and dns
+- storage_ctr_name - name of the PE storage container name
+
+## 2. prism_inventory.yml
+- ansible_host - change it to the PE VIP
+- ansible_user - leave it as nutanix
+- ansible_ssh_pass - nutanix user ssh password
+- pe_api_username - PE cluster admin user for making api calls 
+- pe_api_password - PE cluster admin password
 
 
 # Accessing the cluster
@@ -93,5 +109,21 @@ Following Config is created by default
 # Import Notes
 1. Highly recommend to install virtual env to install the python3 dependencies
 2. Roughly should take about 30-40 min - if it takes more time - please check your internet connection to the prism element and worker vms.
+3. If you running from centos - you might get failure at the end
+```
+[DEPRECATION WARNING]: evaluating 'kubeconfig_localhost' as a bare variable, this behaviour will go away and you might need to add |bool to the expression in the future. Also see CONDITIONAL_BARE_VARS configuration toggle. This feature will be removed in version 2.12. Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+fatal: [node1 -> localhost]: FAILED! => {"changed": false, "checksum": "cb174212df43cc5ea7a0dfd70802a48306b0e5e9", "msg": "Aborting, target uses selinux but python bindings (libselinux-python) aren't installed!"}
+```
+Please disable selinux totally (not just permissive) from the machine you are running the script. Refer [here](https://www.cyberciti.biz/faq/disable-selinux-on-centos-7-rhel-7-fedora-linux/)
 
 
+ 
+# What it is useful and what it is not
+## It is useful for:
+- Good for quickly spinning up a production grade k8s setup and have a few addons like istio and CSI without the need to deploy PC and use Karbon or Calm
+- Can customize any kubespray setting via the variables in kubespray folder. Refer to Kubespray docs 
+
+## It is not:
+- Nutanix supported - it is my personal project
+- Currently cannot do node expansion (working on that based on need)
+- Currently cannot dynamically chose number of worker nodes (working on this now)
